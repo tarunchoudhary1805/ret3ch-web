@@ -13,7 +13,7 @@ const AdminDashboard = () => {
         <div className="d-flex" style={{ justifyContent: "space-around" }}>
           {" "}
           <Link className="cardd p-5 text-white" to="/blog">Blog</Link>
-          <Link className="text-white cardd p-5">Quiz</Link>
+          <Link className="text-white cardd p-5" to="/quiz">Quiz</Link>
         </div>
       </div>
     </div>

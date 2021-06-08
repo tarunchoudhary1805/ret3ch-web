@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import {
   Navbar,
   Nav,
@@ -20,35 +20,17 @@ export const Header = () => {
         <Nav className="ml-auto navbar-dark">
            
           <Nav.Link>
-            <NavLink
+            <Link
               exact
               activeClassName="text-success border-bottom"
               className="text-secondary nav-link"
-              to="/blog"
+              to="/adminDashboard"
             >
-              Blogs
-            </NavLink>
+              Admin Dashboard
+            </Link>
           </Nav.Link>
-          <Nav.Link>
-            <NavLink
-              exact
-              activeClassName="text-success border-bottom"
-              className="text-secondary nav-link"
-              to="/quiz"
-            >
-              quiiiz
-            </NavLink>
-          </Nav.Link>
-          <Nav.Link>
-            <NavLink
-              exact
-              activeClassName="text-success border-bottom"
-              className="text-secondary nav-link"
-              to="/quizadd"
-            >
-              Quiz
-            </NavLink>
-          </Nav.Link>
+           
+
         </Nav>
       </Navbar.Collapse>
     </Navbar>
