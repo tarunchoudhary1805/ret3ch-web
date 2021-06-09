@@ -3,6 +3,7 @@ import QuizAdd from "../../QuizComponents/QuizAdd";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getQUizlistApi } from "../../apiList";
+import Form from "../../QuizComponents/QuizAdd1";
 
 const Quiz = () => {
   const [show, setShow] = useState(false);
@@ -67,9 +68,9 @@ const Quiz = () => {
       <ToastContainer />
       <h3 className="text-center">Quiz</h3>
       <div className="d-flex justify-content-end ">
-        <button className="btn btn-success m-2" onClick={() => setShow(!show)}>
+        {/* <button className="btn btn-success m-2" onClick={() => setShow(!show)}>
           {!show ? "Add Quiz" : "X"}
-        </button>
+        </button> */}
       </div>
       <div className="text-center">
         {loading && (
@@ -78,7 +79,8 @@ const Quiz = () => {
           </div>
         )}
       </div>
-      {show && <QuizAdd submit={(quiz) => submit(quiz)} />}
+      <Form />
+      {/* {show && <QuizAdd submit={(quiz) => submit(quiz)} />} */}
 
       {!show && (
         <div>
