@@ -58,6 +58,7 @@ const Edit = (props) => {
             value={blog.desc}
           />
         </div>
+        
         <button
           type="button"
           className="btn btn-success"

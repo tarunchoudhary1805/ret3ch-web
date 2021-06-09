@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Add from "./Add";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Edit from "./Edit";
+import ReactHtmlParser, {
+  processNodes,
+  convertNodeToElement,
+  htmlparser2,
+} from "react-html-parser";
+import { getBloglistApi } from "../../apiList";
 
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);
@@ -12,20 +18,22 @@ const Blog = () => {
   const [show, setShow] = useState(false);
   const [i, setI] = useState();
 
-  useEffect(async () => {
+  useEffect(() => {
     setLoading(true);
-    const response = await fetch("https://ret3ch.herokuapp.com/v1/bloglist")
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
-    console.log(response);
-    if (response?.status === true) {
-      setBlogs(response.data);
-    }
-    setLoading(false);
+    (async () => {
+      const response = await fetch(getBloglistApi)
+        .then((res) => res.json())
+        .catch((err) => console.log(err));
+      console.log(response);
+      if (response?.status === true) {
+        setBlogs(response.data);
+      }
+      setLoading(false);
+    })();
   }, []);
   const submit = async (blog) => {
     setLoading(true);
-    const response1 = await fetch("https://ret3ch.herokuapp.com/v1/bloglist", {
+    const response1 = await fetch(getBloglistApi, {
       method: "POST",
       body: JSON.stringify(blog),
       headers: {
@@ -49,13 +57,10 @@ const Blog = () => {
   const handleDelete = async (i, id) => {
     console.log(i, id);
     setLoading(true);
-    console.log(`https://ret3ch.herokuapp.com/v1/bloglist/${id}`);
-    const response2 = await fetch(
-      `https://ret3ch.herokuapp.com/v1/bloglist/${id}`,
-      {
-        method: "DELETE",
-      }
-    )
+    console.log(getBloglistApi + id);
+    const response2 = await fetch(getBloglistApi + id, {
+      method: "DELETE",
+    })
       .then((res) => res.json())
       .catch((err) => console.log(err));
     console.log(response2);
@@ -113,8 +118,8 @@ const Blog = () => {
       <div>
         <div className="text-center">
           {loading && (
-            <div class="spinner-border text-center" role="status">
-              <span class="sr-only">Loading...</span>
+            <div className="spinner-border text-center" role="status">
+              <span className="sr-only">Loading...</span>
             </div>
           )}
         </div>
@@ -122,7 +127,7 @@ const Blog = () => {
         {!show && !edit && (
           <ol>
             {blogs?.map((blog, i) => (
-              <div className="d-flex justify-content-between container my-2">
+              <div key={blog._id} className="d-flex justify-content-between container my-2">
                 <li key={blog._id}>{blog.title}</li>
                 <div className="d-flex">
                   <button

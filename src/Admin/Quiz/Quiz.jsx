@@ -2,26 +2,32 @@ import React, { useEffect, useState } from "react";
 import QuizAdd from "../../QuizComponents/QuizAdd";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getQUizlistApi } from "../../apiList";
+import Form from "../../QuizComponents/QuizAdd1";
 
 const Quiz = () => {
   const [show, setShow] = useState(false);
   const [quizs, setQuizs] = useState([]);
   const [loading, setLoading] = useState(false);
-  useEffect(async () => {
+  useEffect(() => {
     setLoading(true);
-    const response = await fetch("https://ret3ch.herokuapp.com/v1/quizlist")
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
-    console.log(response);
-    setQuizs(response.data);
-    setLoading(false);
+    (async () => {
+      const response = await fetch(getQUizlistApi)
+        .then((res) => res.json())
+        .catch((err) => console.log(err));
+      console.log(response);
+      if (response?.status === true) {
+        setQuizs(response.data);
+      }
+      setLoading(false);
+    })();
   }, []);
   console.log(quizs);
 
   const submit = async (quiz) => {
     console.log(quiz);
     setLoading(true);
-    const data = await fetch("https://ret3ch.herokuapp.com/v1/quizlist", {
+    const data = await fetch(getQUizlistApi, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(quiz),
@@ -35,7 +41,6 @@ const Quiz = () => {
       value.push(data.data);
       setQuizs(value);
       toast.success("Quiz Added Successfully");
-       
     } else {
       console.log(data.message);
     }
@@ -44,7 +49,7 @@ const Quiz = () => {
   };
   const handleDelete = async (i, id) => {
     setLoading(true);
-    const v1 = await fetch(`https://ret3ch.herokuapp.com/v1/quizlist/${id}`, {
+    const v1 = await fetch(getQUizlistApi + id, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -63,9 +68,9 @@ const Quiz = () => {
       <ToastContainer />
       <h3 className="text-center">Quiz</h3>
       <div className="d-flex justify-content-end ">
-        <button className="btn btn-success m-2" onClick={() => setShow(!show)}>
+        {/* <button className="btn btn-success m-2" onClick={() => setShow(!show)}>
           {!show ? "Add Quiz" : "X"}
-        </button>
+        </button> */}
       </div>
       <div className="text-center">
         {loading && (
@@ -74,7 +79,8 @@ const Quiz = () => {
           </div>
         )}
       </div>
-      {show && <QuizAdd submit={(quiz) => submit(quiz)} />}
+      <Form />
+      {/* {show && <QuizAdd submit={(quiz) => submit(quiz)} />} */}
 
       {!show && (
         <div>
@@ -84,10 +90,13 @@ const Quiz = () => {
           {quizs?.map((item, i) => (
             <>
               <div className="d-flex justify-content-between">
-                <h3>
-                  {" "}
-                  {i + 1}). {item.quiz_heading}
-                </h3>
+                <div>
+                  <h4>
+                    {" "}
+                    {i + 1}). {item.quiz_heading}
+                  </h4>
+                  <p>{item.short_desc}</p>
+                </div>
                 <div>
                   <button className="btn btn-success m-2">Edit</button>
                   <button
@@ -98,24 +107,6 @@ const Quiz = () => {
                   </button>
                 </div>
               </div>
-              {item?.question_list.map((ques, i) => (
-                <>
-                  <p>
-                    {i + 1}). {ques.question}
-                  </p>
-                  {console.log("dd", ques.correct_option)}
-                  {ques.quiz_options.map((x, i) => (
-                    <p>
-                      {" "}
-                      {ques.correct_option == i ? (
-                        <p className="bg-success text-white">{x}</p>
-                      ) : (
-                        <p className="bg-secondary">{x}</p>
-                      )}
-                    </p>
-                  ))}
-                </>
-              ))}
             </>
           ))}
         </div>
