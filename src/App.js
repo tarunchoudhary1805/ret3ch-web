@@ -9,6 +9,7 @@ import Adminlogin from "./Admin/Adminlogin";
 import AdminDashboard from "./Admin/AdminDashboard";
 import Blog from "./Admin/Blog/Blog";
 import Quiz from "./Admin/Quiz/Quiz";
+import Category from "./Admin/Category/Category";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Route exact path="/adminDashboard" component={AdminDashboard} />
       <Route exact path="/blog" component={Blog} />
       <Route exact path="/quiz" component={Quiz} />
+      <Route exact path="/category" component={Category} />
     </BrowserRouter>
   );
 }

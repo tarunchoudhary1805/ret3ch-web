@@ -109,7 +109,7 @@ const Blog = () => {
       {show && <Add submit={(blog) => submit(blog)} />}
       <br />
       <br />
-      {edit && <Edit Blog={editBlog} handleEdit={(blog) => handleEdit(blog)} />}
+      {edit && <Edit Blog={editBlog}   handleEdit={(blog) => handleEdit(blog)} />}
       <div>
         <div className="text-center">
           {loading && (
