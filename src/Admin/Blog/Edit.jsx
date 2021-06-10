@@ -55,7 +55,7 @@ const Edit = (props) => {
               setBlog({ ...blog, desc: data });
             }}
             name="desc"
-            value={blog.desc}
+            data={blog.desc}
           />
         </div>
         
@@ -66,6 +66,14 @@ const Edit = (props) => {
           onClick={submit}
         >
           Submit
+        </button>
+        <button
+          type="button"
+          className="btn btn-success"
+           
+          onClick={submit}
+        >
+          Cancel Edit
         </button>
       </form>
     </div>
