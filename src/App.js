@@ -10,6 +10,7 @@ import AdminDashboard from "./Admin/AdminDashboard";
 import Blog from "./Admin/Blog/Blog";
 import Quiz from "./Admin/Quiz/Quiz";
 import Category from "./Admin/Category/Category";
+import Topics from "./Admin/Category/Topics";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <Route exact path="/blog" component={Blog} />
       <Route exact path="/quiz" component={Quiz} />
       <Route exact path="/category" component={Category} />
+      <Route exact path="/topics" component={Topics} />
     </BrowserRouter>
   );
 }

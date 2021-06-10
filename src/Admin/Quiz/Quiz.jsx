@@ -121,7 +121,7 @@ const Quiz = () => {
 
       {!show && !edit && (
         <div>
-          {quizs?.length === 0 && (
+          {quizs?.length === 0 && !loading && (
             <p className="text-center">No Quiz Available💔</p>
           )}
           {quizs?.map((item, i) => (

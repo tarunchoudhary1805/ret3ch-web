@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const AddCategory = () => {
+const AddQuestion = () => {
   const [category, setCategory] = useState("");
   const [topics, setTopics] = useState([
     {
@@ -178,4 +178,4 @@ const AddCategory = () => {
   );
 };
 
-export default AddCategory;
+export default AddQuestion;
