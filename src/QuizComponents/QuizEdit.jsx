@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 
-const Form = (props) => {
+const QuizEdit = (props) => {
   const [quiz1, setQuiz1] = useState({
-    quiz_heading: "",
-    short_desc: "",
+    quiz_heading: props.quiz.quiz_heading,
+    short_desc: props.quiz.short_desc,
   });
-  const [quiz, setQuiz] = useState([
-    {
-      question: "",
-      quiz_options: ["", "", "", ""],
-      correct_option: "",
-    },
-  ]);
+  console.log(props.quiz);
+  const [quiz, setQuiz] = useState(props.quiz.question_list);
   const handleChange = (i, e) => {
     const values = [...quiz];
     values[i][e.target.name] = e.target.value;
@@ -46,7 +41,7 @@ const Form = (props) => {
       short_desc: quiz1.short_desc,
       question_list: quiz,
     };
-    props.submit(payload);
+    props.handleEdit(payload);
     console.log(payload);
   };
 
@@ -109,9 +104,11 @@ const Form = (props) => {
               <select
                 name="correct_option"
                 className="form-control"
-                value={quiz.correct_option}
+                value={item.correct_option}
+                
                 onChange={(e) => handleChange(idx1, e)}
               >
+                  {console.log(quiz)}
                 <option value="1">Answer #1</option>
                 <option value="2">Answer #2</option>
                 <option value="3">Answer #3</option>
@@ -146,4 +143,4 @@ const Form = (props) => {
   );
 };
 
-export default Form;
+export default QuizEdit;
