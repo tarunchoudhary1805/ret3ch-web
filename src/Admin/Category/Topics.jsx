@@ -3,7 +3,7 @@ import AddTopic from "./AddTopic";
 
 const Topics = (props) => {
   const [topics, setTopics] = useState();
-  const id = props.history.location.state.id;
+  const id = localStorage.getItem("categoryId");
   const [topicShow, setTopicShow] = useState(false);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -36,8 +36,8 @@ const Topics = (props) => {
     )
       .then((res) => res.json())
       .catch((err) => console.log(err));
-    console.log(response.data);
-    if (response.success === true) {
+    console.log(response?.data);
+    if (response?.success === true) {
       let value = [...topics];
       value.push(response.data);
       setTopics(value);
@@ -45,6 +45,13 @@ const Topics = (props) => {
       setLoading(false);
     }
   };
+
+  const question = (id1) => {
+    console.log(id1);
+    localStorage.setItem("topicId", id1);
+    props.history.push("/questions");
+  };
+
   return (
     <div className="container border p-5">
       <h3 className="text-center">Topics</h3>
@@ -80,14 +87,22 @@ const Topics = (props) => {
           )}
           {topics?.map((item, idx1) => (
             <div className="d-flex justify-content-between">
-             <div> <h5>
-                {idx1 + 1}). {item.title}
-              </h5>
-              <p>{item.description}</p></div>
+              <div>
+                {" "}
+                <h5>
+                  {idx1 + 1}). {item.title}
+                </h5>
+                <p>{item.description}</p>
+              </div>
               <div className="">
-                <button className="btn btn-primary m-2">questions</button>
-                <button className="btn btn-success m-2">Edit</button>
-                <button className="btn btn-danger m-2">Delete</button>
+                <button
+                  className="btn btn-primary m-2"
+                  onClick={() => question(item._id)}
+                >
+                  questions
+                </button>
+                {/* <button className="btn btn-success m-2">Edit</button>
+                <button className="btn btn-danger m-2">Delete</button> */}
               </div>
             </div>
           ))}

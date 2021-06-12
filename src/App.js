@@ -11,6 +11,7 @@ import Blog from "./Admin/Blog/Blog";
 import Quiz from "./Admin/Quiz/Quiz";
 import Category from "./Admin/Category/Category";
 import Topics from "./Admin/Category/Topics";
+import Questions from "./Admin/Category/Questions";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <Route exact path="/quiz" component={Quiz} />
       <Route exact path="/category" component={Category} />
       <Route exact path="/topics" component={Topics} />
+      <Route exact path="/questions" component={Questions} />
     </BrowserRouter>
   );
 }

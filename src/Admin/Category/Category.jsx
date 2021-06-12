@@ -38,7 +38,8 @@ const Category = (props) => {
     }
   };
   const showTopic = (id) => {
-    props.history.push({ pathname: "/topics", state: { id: id } });
+    localStorage.setItem("categoryId",id);
+    props.history.push("/topics");
   };
 
   return (

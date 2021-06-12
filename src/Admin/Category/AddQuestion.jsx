@@ -1,175 +1,86 @@
 import React, { useState } from "react";
 
-const AddQuestion = () => {
-  const [category, setCategory] = useState("");
-  const [topics, setTopics] = useState([
+const AddQuestion = (props) => {
+  const [question_list, setQuestion_list] = useState([
     {
-      topic: " ",
-      questions: [
-        {
-          question: " ",
-          answers: ["", "", "", ""],
-          correct_option: "",
-        },
-      ],
+      question: " ",
+      answer: "",
+      topic_id: localStorage.getItem("topicId"),
     },
   ]);
-  const handleAddTopic = () => {
-    const value = [...topics];
+
+  const handleAddQuest = () => {
+    const value = [...question_list];
     value.push({
-      topic: " ",
-      questions: [
-        {
-          question: " ",
-          answers: ["", "", "", ""],
-          correct_option: "",
-        },
-      ],
-    });
-    setTopics(value);
-  };
-  const handleAddQuest = (e, idx) => {
-    const value = [...topics];
-
-    value[idx].questions.push({
       question: " ",
-      answers: ["", "", "", ""],
-      correct_option: "",
+      answer: "",
+      topic_id: localStorage.getItem("topicId"),
     });
-    console.log(value);
-    setTopics(value);
-  };
-  const handleRemoveTopic = (e, idx) => {
-    const value = [...topics];
-    value.splice(idx, 1);
-    setTopics(value);
-  };
-  const handleRemoveQuest = (e, idx1, idx2) => {
-    const value = [...topics];
-    value[idx1].questions.splice(idx2, 1);
-    console.log(value);
-    setTopics(value);
+    // console.log(value);
+    setQuestion_list(value);
   };
 
-  const handleTopicChange = (e, idx) => {
-    const value = [...topics];
-    value[idx][e.target.name] = e.target.value;
-    setTopics(value);
+  const handleRemoveQuest = (idx) => {
+    const value = [...question_list];
+    value.splice(idx, 1);
+    // console.log(value);
+    setQuestion_list(value);
   };
-  const handleQuestionChange = (e, idx1, idx2) => {
-    const value = [...topics];
-    value[idx1].questions[idx2][e.target.name] = e.target.value;
-    setTopics(value);
+
+  const handleQuestionChange = (e, idx1) => {
+    const value = [...question_list];
+    value[idx1][e.target.name] = e.target.value;
+    setQuestion_list(value);
   };
-  const handleAnswersChange = (e, idx1, idx2, idx3) => {
-    const value = [...topics];
-    value[idx1].questions[idx2][e.target.name][idx3] = e.target.value;
-    setTopics(value);
-  };
-  console.log(topics);
+
+  // console.log(question_list);
   const submit = (e) => {
     e.preventDefault();
-    const payload = {
-      category,
-      topics,
-    };
-    console.log("data to send in api", payload);
+    props.addQuestion(question_list);
   };
 
   return (
     <div className="container">
-      <div className="form-group">
-        <label>Category / Language</label>
-        <input
-          className="form-control"
-          type="text"
-          value={category}
-          name="category"
-          onChange={(e) => setCategory(e.target.value)}
-        />
-      </div>
-      {topics?.map((item, idx1) => (
-        <div>
+      {question_list?.map((item, idx1) => (
+        <>
           <div className="form-group">
-            <label>Topic Name #{idx1 + 1}</label>
+            <label>Question #{idx1 + 1}</label>
             <input
-              type="text"
               className="form-control"
-              value={item.topic}
-              name="topic"
-              onChange={(e) => handleTopicChange(e, idx1)}
+              value={item.question}
+              name="question"
+              onChange={(e) => handleQuestionChange(e, idx1)}
+              type="text"
             />
           </div>
-          {item.questions.map((x, idx2) => (
-            <>
-              <div className="form-group">
-                <label>Question #{idx2 + 1}</label>
-                <input
-                  className="form-control"
-                  value={x.question}
-                  name="question"
-                  onChange={(e) => handleQuestionChange(e, idx1, idx2)}
-                  type="text"
-                />
-              </div>
-              {x.answers.map((x1, idx3) => (
-                <div className="container ">
-                  <div className="form-group">
-                    <label>Answer #{idx3 + 1}</label>
-                    <input
-                      type="text"
-                      onChange={(e) => handleAnswersChange(e, idx1, idx2, idx3)}
-                      name="answers"
-                      className="form-control"
-                      placeholder={`answer #${idx3 + 1}`}
-                      value={x1}
-                    />
-                  </div>
-                </div>
-              ))}
-              <div className="form-group">
-                <label>Correct Answer</label>
-                <select
-                  name="correct_option"
-                  className="form-control"
-                  onChange={(e) => handleQuestionChange(e, idx1, idx2)}
-                  value={x.correct_option}
-                >
-                  <option value="1">Answer #1</option>
-                  <option value="2">Answer #2</option>
-                  <option value="3">Answer #3</option>
-                  <option value="4">Answer #4</option>
-                </select>
-                <div className="d-flex justify-content-end">
-                  <button
-                    className="btn btn-success m-2"
-                    onClick={(e) => handleAddQuest(e, idx1)}
-                  >
-                    Add question
-                  </button>
-                  <button
-                    className="btn btn-danger m-2"
-                    onClick={(e) => handleRemoveQuest(e, idx1, idx2)}
-                  >
-                    Remove question
-                  </button>
-                </div>
-              </div>
-            </>
-          ))}
-
-          <div className="d-flex">
-            <button className="btn btn-success m-2" onClick={handleAddTopic}>
-              Add Topic
-            </button>
-            <button
-              className="btn btn-danger m-2"
-              onClick={(e) => handleRemoveTopic(e, idx1)}
-            >
-              Remove Topic
-            </button>
+          <div className="form-group">
+            <label>Answer</label>
+            <input
+              className="form-control"
+              value={item.answer}
+              name="answer"
+              onChange={(e) => handleQuestionChange(e, idx1)}
+              type="text"
+            />
           </div>
-        </div>
+
+          <div className="form-group">
+            <div className="d-flex justify-content-end">
+              <button
+                className="btn btn-success m-2"
+                onClick={() => handleAddQuest()}
+              >
+                Add question
+              </button>
+              <button
+                className="btn btn-danger m-2"
+                onClick={() => handleRemoveQuest(idx1)}
+              >
+                Remove question
+              </button>
+            </div>
+          </div>
+        </>
       ))}
       <button onClick={submit} type="button" className="btn btn-primary">
         Save
