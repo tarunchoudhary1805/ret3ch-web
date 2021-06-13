@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from "react";
 import AddTopic from "./AddTopic";
+import EditTopic from "./EditTopic";
+import { getTopiclistApi } from "../../apiList";
 
 const Topics = (props) => {
   const [topics, setTopics] = useState();
   const id = localStorage.getItem("categoryId");
   const [topicShow, setTopicShow] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const [i, setI] = useState();
+  const [topic1, setTopic1] = useState();
+  const [edit, setEdit] = useState();
+  const [editId, setEditId] = useState();
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const response = await fetch(
-        "https://ret3ch.herokuapp.com/v1/topic_list/" + id
-      )
+      const response = await fetch(getTopiclistApi + id)
         .then((res) => res.json())
         .catch((err) => console.log(err));
       console.log(response);
@@ -26,14 +31,11 @@ const Topics = (props) => {
       description: topic.description,
       language_id: id,
     };
-    const response = await fetch(
-      "https://ret3ch.herokuapp.com/v1/topic_list/",
-      {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(payload),
-      }
-    )
+    const response = await fetch(getTopiclistApi, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(payload),
+    })
       .then((res) => res.json())
       .catch((err) => console.log(err));
     console.log(response?.data);
@@ -51,7 +53,44 @@ const Topics = (props) => {
     localStorage.setItem("topicId", id1);
     props.history.push("/questions");
   };
+  const handleTopicDelete = async (idx, id) => {
+    setLoading(true);
+    console.log(id);
+    const res = await fetch(getTopiclistApi + id, { method: "DELETE" })
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
+    if (res.success === true) {
+      const x = [...topics];
+      x.splice(idx, 1);
+      setTopics(x);
+    }
+    console.log(res);
+    setLoading(false);
+  };
 
+  const editTopic = async (data) => {
+    console.log(data);
+    setLoading(true);
+
+    const res = await fetch(getTopiclistApi + editId, {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
+    if (res.success === true) {
+      const x1 = [...topics];
+      console.log(x1);
+      x1[i] = res.data;
+      console.log(x1);
+      setTopics(x1);
+    }
+    console.log(res);
+    setEdit(false);
+    setLoading(false);
+  };
+  console.log(topics);
   return (
     <div className="container border p-5">
       <h3 className="text-center">Topics</h3>
@@ -80,7 +119,15 @@ const Topics = (props) => {
         )}
       </div>
       {topicShow && <AddTopic topicSubmit={(topic) => topicSubmit(topic)} />}
-      {!topicShow && (
+      {edit && (
+        <EditTopic
+          top={topic1}
+          id={id}
+          cancel={() => setEdit(!edit)}
+          editTopic={(topic) => editTopic(topic)}
+        />
+      )}
+      {!topicShow && !edit && (
         <div>
           {topics?.length === 0 && (
             <p className="text-center">No Topics Available💔</p>
@@ -101,8 +148,23 @@ const Topics = (props) => {
                 >
                   questions
                 </button>
-                {/* <button className="btn btn-success m-2">Edit</button>
-                <button className="btn btn-danger m-2">Delete</button> */}
+                <button
+                  className="btn btn-success m-2"
+                  onClick={() => {
+                    setEdit(true);
+                    setTopic1(item);
+                    setI(idx1);
+                    setEditId(item._id);
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  className="btn btn-danger m-2"
+                  onClick={() => handleTopicDelete(idx1, item._id)}
+                >
+                  Delete
+                </button>
               </div>
             </div>
           ))}

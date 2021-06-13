@@ -2,16 +2,22 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import AddQuestion from "./AddQuestion";
 import CategoryAdd from "./CategoryAdd";
+import EditCategory from "./EditCategory";
+import { getCategorylistApi } from "../../apiList";
 
 const Category = (props) => {
   const history = useHistory();
   const [categories, setCategories] = useState();
   const [showAddCategory, setShowAddCategory] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [i, setI] = useState();
+  const [category1, setCategory1] = useState();
+  const [edit, setEdit] = useState();
+  const [editId, setEditId] = useState();
   useEffect(() => {
     (async () => {
       setLoading(true);
-      let response = await fetch("https://ret3ch.herokuapp.com/v1/lang_list")
+      let response = await fetch(getCategorylistApi)
         .then((res) => res.json())
         .catch((err) => console.log(err));
       console.log(response.data);
@@ -21,7 +27,7 @@ const Category = (props) => {
   }, []);
   const AddCategory = async (category) => {
     setLoading(true);
-    const response = await fetch("https://ret3ch.herokuapp.com/v1/lang_list", {
+    const response = await fetch(getCategorylistApi, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(category),
@@ -38,8 +44,45 @@ const Category = (props) => {
     }
   };
   const showTopic = (id) => {
-    localStorage.setItem("categoryId",id);
+    localStorage.setItem("categoryId", id);
     props.history.push("/topics");
+  };
+
+  const handleCateogryDelete = async (idx, id) => {
+    setLoading(true);
+    console.log(id);
+    const res = await fetch(getCategorylistApi + "/" + id, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
+    if (res.success === true) {
+      const x = [...categories];
+      x.splice(idx, 1);
+      setCategories(x);
+    }
+    console.log(res);
+    setLoading(false);
+  };
+
+  const editCategory = async (data) => {
+    console.log(data);
+
+    const res = await fetch(getCategorylistApi + "/" + editId, {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
+    if (res.success === true) {
+      const x = [...categories];
+      x[i] = res.data;
+      setCategories(x);
+    }
+    console.log(res);
+    setEdit(false);
+    setLoading(false);
   };
 
   return (
@@ -64,7 +107,14 @@ const Category = (props) => {
       {showAddCategory && (
         <CategoryAdd AddCategory={(category) => AddCategory(category)} />
       )}
-      {!showAddCategory && (
+      {edit && (
+        <EditCategory
+          cancel={() => setEdit(!edit)}
+          cat={category1}
+          editCategory={(category) => editCategory(category)}
+        />
+      )}
+      {!showAddCategory && !edit && (
         <div
           className="container"
           style={{
@@ -82,11 +132,30 @@ const Category = (props) => {
 
                     <button
                       href="#"
-                      className="btn btn-primary"
+                      className="btn btn-primary m-2"
                       onClick={() => showTopic(item._id)}
                     >
                       Show Topics
                     </button>
+                    <div>
+                      <button
+                        className="btn btn-success m-2"
+                        onClick={() => {
+                          setEdit(true);
+                          setCategory1(item);
+                          setI(i);
+                          setEditId(item._id);
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-danger m-2"
+                        onClick={() => handleCateogryDelete(i, item._id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -1,20 +1,21 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 
 const EditQuestion = (props) => {
-    console.log(props);
+  console.log(props);
   const [data, setData] = useState({
-    question: props.question.question,
-    answer: props.question.answer,
-    topic_id: props.question.topic_id,
+    question: props.questionEdit.question,
+    answer: props.questionEdit.answer,
+    topic_id: props.questionEdit.topic_id,
   });
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
-
+  console.log(data);
   const submit = (e) => {
     e.preventDefault();
-    props.submit(data);
+    props.submitEdit(data);
+    console.log("data edit wala", data);
   };
 
   return (
@@ -31,7 +32,8 @@ const EditQuestion = (props) => {
       </div>
       <div className="form-group">
         <label>Answer</label>
-        <input
+        <textarea
+        rows="5"
           className="form-control"
           value={data.answer}
           name="answer"
@@ -41,6 +43,13 @@ const EditQuestion = (props) => {
       </div>
       <button className="btn btn-success m-2" onClick={submit}>
         Update
+      </button>
+      <button
+        type="button"
+        className="btn btn-danger m-2"
+        onClick={props.cancel}
+      >
+        Cancel
       </button>
     </div>
   );

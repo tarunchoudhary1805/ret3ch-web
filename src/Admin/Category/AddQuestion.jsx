@@ -55,7 +55,8 @@ const AddQuestion = (props) => {
           </div>
           <div className="form-group">
             <label>Answer</label>
-            <input
+            <textarea
+        rows="5"
               className="form-control"
               value={item.answer}
               name="answer"

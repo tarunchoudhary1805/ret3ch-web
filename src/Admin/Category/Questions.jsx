@@ -27,7 +27,7 @@ const Questions = (props) => {
       }
     })();
   }, []);
-  // console.log("questions", questions);
+  console.log("questions", questions);
   const addQuestion = async (questions1) => {
     setLoading(true);
     // console.log(questions1);
@@ -45,7 +45,7 @@ const Questions = (props) => {
     )
       .then((res) => res.json())
       .catch((err) => console.log(err));
-
+    console.log(value.data);
     if (value.success === true) {
       let value1 = [...questions];
       const value2 = value.data.forEach(myFun);
@@ -71,7 +71,7 @@ const Questions = (props) => {
     )
       .then((res) => res.json())
       .catch((err) => console.log(err));
-    // console.log(response);
+    console.log(response);
     if (response.success === true) {
       let data = [...questions];
       data.splice(idx, 1);
@@ -79,21 +79,30 @@ const Questions = (props) => {
     }
     setLoading(false);
   };
-  const submit = async (data) => {
-    console.log(data);
-    const response = await fetch(
+  const submitEdit = async (data1) => {
+    setLoading(true);
+    console.log("parent child data", data1);
+    const response1 = await fetch(
       "https://ret3ch.herokuapp.com/v1/question_list/" + editId,
       {
         method: "PUT",
         headers: { "content-type": "appliation/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify(data1),
       }
     )
       .then((res) => res.json())
       .catch((err) => console.log(err));
-    console.log(response);
+    console.log("edit response", response1);
+    if (response1.success === true) {
+      const x = [...questions];
+      x[i] = response1.data;
+      setQuestions(x);
+    }
     setEdit(false);
+    setLoading(false);
   };
+  console.log("editId", editId);
+  console.log("editqy", questionEdit);
   return (
     <div className="container border p-5">
       <h3 className="text-center">Questions</h3>
@@ -114,7 +123,11 @@ const Questions = (props) => {
         <AddQuestion addQuestion={(questions) => addQuestion(questions)} />
       )}
       {edit && (
-        <EditQuestion question={questionEdit} submit={(data) => submit(data)} />
+        <EditQuestion
+          cancel={() => setEdit(!edit)}
+          questionEdit={questionEdit}
+          submitEdit={(data) => submitEdit(data)}
+        />
       )}
       <div className="text-center">
         {loading && (
@@ -130,7 +143,7 @@ const Questions = (props) => {
           )}
           {questions?.map((item, idx1) => (
             <div className=" d-flex justify-content-between m-2">
-              <div>
+              <div className="w-50">
                 <h6 className="">
                   {idx1 + 1}).
                   {item.question}
