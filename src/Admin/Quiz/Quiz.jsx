@@ -107,8 +107,8 @@ const Quiz = () => {
       </div>
       <div className="text-center">
         {loading && (
-          <div class="spinner-border text-center" role="status">
-            <span class="sr-only">Loading...</span>
+          <div className="spinner-border text-center" role="status">
+            <span className="sr-only">Loading...</span>
           </div>
         )}
       </div>
@@ -121,7 +121,7 @@ const Quiz = () => {
 
       {!show && !edit && (
         <div>
-          {quizs?.length === 0 && (
+          {quizs?.length === 0 && !loading && (
             <p className="text-center">No Quiz Available💔</p>
           )}
           {quizs?.map((item, i) => (
