@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { questionApi } from "../../apiList";
 import AddQuestion from "./AddQuestion";
 import EditQuestion from "./EditQuestion";
 
@@ -16,7 +17,7 @@ const Questions = (props) => {
     (async () => {
       setLoading(true);
       const response = await fetch(
-        `https://ret3ch.herokuapp.com/v1/question_list/${id}`
+        `${questionApi}/${id}`
       )
         .then((res) => res.json())
         .catch((err) => console.log(err));
@@ -36,7 +37,7 @@ const Questions = (props) => {
     };
     // console.log(payload);
     const value = await fetch(
-      " https://ret3ch.herokuapp.com/v1/question_list",
+      `${questionApi}`,
       {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -66,7 +67,7 @@ const Questions = (props) => {
     // console.log(id);
     setLoading(true);
     const response = await fetch(
-      "https://ret3ch.herokuapp.com/v1/question_list/" + id,
+      `${questionApi}/${id}`,
       { method: "DELETE" }
     )
       .then((res) => res.json())
@@ -79,30 +80,35 @@ const Questions = (props) => {
     }
     setLoading(false);
   };
+
+
   const submitEdit = async (data1) => {
     setLoading(true);
-    console.log("parent child data", data1);
-    const response1 = await fetch(
-      "https://ret3ch.herokuapp.com/v1/question_list/" + editId,
+    console.log("parent child data ---->>>> ", JSON.stringify(data1));
+    console.log("editId ---->>>> ", editId);
+
+    await fetch(
+      `${questionApi}/${editId}`,
       {
         method: "PUT",
-        headers: { "content-type": "appliation/json" },
+        headers: { "content-type": "application/json" },
         body: JSON.stringify(data1),
       }
     )
       .then((res) => res.json())
+      .then(result => {
+        console.log("edit response", result);
+        if (result.success === true) {
+          const x = [...questions];
+          x[i] = result.data;
+          setQuestions(x);
+        }
+        setEdit(false);
+        setLoading(false);
+      })
       .catch((err) => console.log(err));
-    console.log("edit response", response1);
-    if (response1.success === true) {
-      const x = [...questions];
-      x[i] = response1.data;
-      setQuestions(x);
-    }
-    setEdit(false);
-    setLoading(false);
+
   };
-  console.log("editId", editId);
-  console.log("editqy", questionEdit);
   return (
     <div className="container border p-5">
       <h3 className="text-center">Questions</h3>
