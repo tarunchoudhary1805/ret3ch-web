@@ -16,14 +16,12 @@ const AddQuestion = (props) => {
       answer: "",
       topic_id: localStorage.getItem("topicId"),
     });
-    // console.log(value);
     setQuestion_list(value);
   };
 
   const handleRemoveQuest = (idx) => {
     const value = [...question_list];
     value.splice(idx, 1);
-    // console.log(value);
     setQuestion_list(value);
   };
 
@@ -33,7 +31,6 @@ const AddQuestion = (props) => {
     setQuestion_list(value);
   };
 
-  // console.log(question_list);
   const submit = (e) => {
     e.preventDefault();
     props.addQuestion(question_list);
@@ -56,7 +53,7 @@ const AddQuestion = (props) => {
           <div className="form-group">
             <label>Answer</label>
             <textarea
-        rows="5"
+              rows="5"
               className="form-control"
               value={item.answer}
               name="answer"

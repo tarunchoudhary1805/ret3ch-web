@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 
 const Form = (props) => {
+
   const [quiz1, setQuiz1] = useState({
     quiz_heading: "",
     short_desc: "",
   });
+
   const [quiz, setQuiz] = useState([
     {
       question: "",
@@ -12,10 +14,10 @@ const Form = (props) => {
       correct_option: "",
     },
   ]);
+
   const handleChange = (i, e) => {
     const values = [...quiz];
     values[i][e.target.name] = e.target.value;
-    // console.log(values);
     setQuiz(values);
   };
 
@@ -34,11 +36,13 @@ const Form = (props) => {
     });
     setQuiz(values);
   };
+
   const handleRemove = (i) => {
     const values = [...quiz];
     values.splice(i, 1);
     setQuiz(values);
   };
+
   const submit = (e) => {
     e.preventDefault();
     const payload = {
@@ -47,12 +51,12 @@ const Form = (props) => {
       question_list: quiz,
     };
     props.submit(payload);
-    // console.log(payload);
   };
 
   const handleChange1 = (e) => {
     setQuiz1({...quiz1, [e.target.name]: e.target.value });
   };
+  
   return (
     <div>
       <form>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 const EditCategory = (props) => {
   const [category, setCategory] = useState(props.cat.name);
+
   const submit = (e) => {
     e.preventDefault();
     const payload = {
@@ -9,6 +10,7 @@ const EditCategory = (props) => {
     };
     props.editCategory(payload);
   };
+
   return (
     <div>
       <div className="form-group">
@@ -25,7 +27,11 @@ const EditCategory = (props) => {
         <button type="button" className="btn btn-success m-2" onClick={submit}>
           Save
         </button>
-        <button type="button" className="btn btn-danger m-2" onClick={props.cancel}>
+        <button
+          type="button"
+          className="btn btn-danger m-2"
+          onClick={props.cancel}
+        >
           Cancel
         </button>
       </div>

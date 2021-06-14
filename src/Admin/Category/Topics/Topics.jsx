@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from "react";
 import AddTopic from "./AddTopic";
 import EditTopic from "./EditTopic";
-import { getTopiclistApi } from "../../apiList";
+import { getTopiclistApi } from "../../../apiList";
 
 const Topics = (props) => {
   const [topics, setTopics] = useState();
   const id = localStorage.getItem("categoryId");
   const [topicShow, setTopicShow] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const [i, setI] = useState();
   const [topic1, setTopic1] = useState();
   const [edit, setEdit] = useState();
   const [editId, setEditId] = useState();
+
   useEffect(() => {
     (async () => {
       setLoading(true);
       const response = await fetch(getTopiclistApi + id)
         .then((res) => res.json())
         .catch((err) => console.log(err));
-      // console.log(response);
       setTopics(response.data);
       setLoading(false);
     })();
   }, []);
+
   const topicSubmit = async (topic) => {
     setLoading(true);
     const payload = {
@@ -31,6 +31,7 @@ const Topics = (props) => {
       description: topic.description,
       language_id: id,
     };
+
     const response = await fetch(getTopiclistApi, {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -38,7 +39,6 @@ const Topics = (props) => {
     })
       .then((res) => res.json())
       .catch((err) => console.log(err));
-    // console.log(response?.data);
     if (response?.success === true) {
       let value = [...topics];
       value.push(response.data);
@@ -49,13 +49,12 @@ const Topics = (props) => {
   };
 
   const question = (id1) => {
-    // console.log(id1);
     localStorage.setItem("topicId", id1);
     props.history.push("/questions");
   };
+
   const handleTopicDelete = async (idx, id) => {
     setLoading(true);
-    // console.log(id);
     const res = await fetch(getTopiclistApi + id, { method: "DELETE" })
       .then((res) => res.json())
       .catch((err) => console.log(err));
@@ -64,14 +63,11 @@ const Topics = (props) => {
       x.splice(idx, 1);
       setTopics(x);
     }
-    // console.log(res);
     setLoading(false);
   };
 
   const editTopic = async (data) => {
-    // console.log(data);
     setLoading(true);
-
     const res = await fetch(getTopiclistApi + editId, {
       method: "PUT",
       headers: { "content-type": "application/json" },
@@ -81,16 +77,13 @@ const Topics = (props) => {
       .catch((err) => console.log(err));
     if (res.success === true) {
       const x1 = [...topics];
-      // console.log(x1);
       x1[i] = res.data;
-      // console.log(x1);
       setTopics(x1);
     }
-    // console.log(res);
     setEdit(false);
     setLoading(false);
   };
-  // console.log(topics);
+
   return (
     <div className="container border p-5">
       <h3 className="text-center">Topics</h3>

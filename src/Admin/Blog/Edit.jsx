@@ -9,9 +9,11 @@ const Edit = (props) => {
     short_desc: props.Blog.short_desc,
     desc: props.Blog.desc,
   });
+
   const handleChange = (e) => {
     setBlog({ ...blog, [e.target.name]: e.target.value });
   };
+  
   const submit = () => {
     props.handleEdit(blog);
     setBlog({
@@ -21,7 +23,7 @@ const Edit = (props) => {
     });
     data = "";
   };
-  // console.log(blog);
+
   return (
     <div className="container ">
       <form>
@@ -51,7 +53,6 @@ const Edit = (props) => {
             editor={ClassicEditor}
             onChange={(event, editor) => {
               data = editor.getData();
-              // console.log(data);
               setBlog({ ...blog, desc: data });
             }}
             name="desc"
@@ -70,7 +71,6 @@ const Edit = (props) => {
         <button
           type="button"
           className="btn btn-danger m-2"
-           
           onClick={props.cancel}
         >
           Cancel 

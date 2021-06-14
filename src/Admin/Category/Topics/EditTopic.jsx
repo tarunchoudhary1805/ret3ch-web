@@ -1,20 +1,23 @@
 import React, { useState } from "react";
 
-const AddTopic = (props) => {
+const EditTopic = (props) => {
   const [topic, setTopic] = useState({
-    description: "",
-    title: "",
+    description: props.top.description,
+    title: props.top.title,
+    language_id: props.id,
   });
+
   const handleChange = (e) => {
     setTopic({ ...topic, [e.target.name]: e.target.value });
   };
+
   const submit = (e) => {
     e.preventDefault();
-    // console.log(topic);
-    props.topicSubmit(topic);
+    props.editTopic(topic);
   };
+
   return (
-    <>
+    <div>
       <div className="form-group">
         <label>Title </label>
         <input
@@ -36,11 +39,18 @@ const AddTopic = (props) => {
           onChange={handleChange}
         />
       </div>
-      <button onClick={submit} className="btn btn-success" type="button">
+      <button onClick={submit} className="btn btn-success m-2" type="button">
         Save
       </button>
-    </>
+      <button
+        type="button"
+        className="btn btn-danger m-2"
+        onClick={props.cancel}
+      >
+        Cancel
+      </button>
+    </div>
   );
 };
 
-export default AddTopic;
+export default EditTopic;

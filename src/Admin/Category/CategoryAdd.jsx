@@ -1,14 +1,15 @@
-import React ,{useState}from "react";
+import React, { useState } from "react";
 
 const CategoryAdd = (props) => {
   const [category, setCategory] = useState("");
   const submit = (e) => {
     e.preventDefault();
     const payload = {
-        name:category
-    }
+      name: category,
+    };
     props.AddCategory(payload);
   };
+
   return (
     <div>
       <div className="form-group">

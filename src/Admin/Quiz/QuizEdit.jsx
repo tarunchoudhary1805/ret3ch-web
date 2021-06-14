@@ -5,12 +5,12 @@ const QuizEdit = (props) => {
     quiz_heading: props.quiz.quiz_heading,
     short_desc: props.quiz.short_desc,
   });
-  // console.log(props.quiz);
+
   const [quiz, setQuiz] = useState(props.quiz.question_list);
+
   const handleChange = (i, e) => {
     const values = [...quiz];
     values[i][e.target.name] = e.target.value;
-    // console.log(values);
     setQuiz(values);
   };
 
@@ -29,11 +29,13 @@ const QuizEdit = (props) => {
     });
     setQuiz(values);
   };
+
   const handleRemove = (i) => {
     const values = [...quiz];
     values.splice(i, 1);
     setQuiz(values);
   };
+
   const submit = (e) => {
     e.preventDefault();
     const payload = {
@@ -42,12 +44,12 @@ const QuizEdit = (props) => {
       question_list: quiz,
     };
     props.handleEdit(payload);
-    // console.log(payload);/
   };
 
   const handleChange1 = (e) => {
     setQuiz1({...quiz1, [e.target.name]: e.target.value });
   };
+  
   return (
     <div>
       <form>

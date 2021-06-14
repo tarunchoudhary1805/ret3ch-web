@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 const EditQuestion = (props) => {
-  // console.log(props);
   const [data, setData] = useState({
     question: props.questionEdit.question,
     answer: props.questionEdit.answer,
@@ -11,11 +10,10 @@ const EditQuestion = (props) => {
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
-  // console.log(data);
+
   const submit = (e) => {
     e.preventDefault();
     props.submitEdit(data);
-    // console.log("data edit wala", data);
   };
 
   return (
@@ -33,7 +31,7 @@ const EditQuestion = (props) => {
       <div className="form-group">
         <label>Answer</label>
         <textarea
-        rows="5"
+          rows="5"
           className="form-control"
           value={data.answer}
           name="answer"

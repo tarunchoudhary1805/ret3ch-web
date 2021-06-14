@@ -3,15 +3,18 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 let data;
+
 const Add = (props) => {
   const [blog, setBlog] = useState({
     title: "",
     short_desc: "",
     desc: "",
   });
+
   const handleChange = (e) => {
     setBlog({ ...blog, [e.target.name]: e.target.value });
   };
+
   const submit = () => {
     props.submit(blog);
     setBlog({
@@ -21,7 +24,8 @@ const Add = (props) => {
     });
     data = "";
   };
-  // console.log(blog);
+
+ 
   return (
     <div className="container ">
       <form>
@@ -51,7 +55,6 @@ const Add = (props) => {
             editor={ClassicEditor}
             onChange={(event, editor) => {
                data = editor.getData();
-// console.log(data);
               setBlog({ ...blog, desc: data });
             }}
             name="desc"
