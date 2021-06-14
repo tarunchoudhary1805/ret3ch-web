@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Add from "./Add";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Edit from "./Edit";
 
 const Blog = () => {
@@ -12,15 +12,17 @@ const Blog = () => {
   const [show, setShow] = useState(false);
   const [i, setI] = useState();
 
-  useEffect(async () => {
+  useEffect(() => {
     setLoading(true);
-    const response = await fetch("https://ret3ch.herokuapp.com/v1/bloglist")
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
-    console.log(response);
-    if (response?.status === true) {
-      setBlogs(response.data);
-    }
+    (async () => {
+      const response = await fetch("https://ret3ch.herokuapp.com/v1/bloglist")
+        .then((res) => res.json())
+        .catch((err) => console.log(err));
+      // console.log(response);
+      if (response?.status === true) {
+        setBlogs(response.data);
+      }
+    })();
     setLoading(false);
   }, []);
   const submit = async (blog) => {
@@ -34,22 +36,22 @@ const Blog = () => {
     })
       .then((res) => res.json())
       .catch((err) => console.log(err));
-    console.log(response1);
+    // console.log(response1);
     if (response1.success === true) {
       const data = [...blogs];
       data.push(response1.data);
       setBlogs(data);
-      console.log("data", data);
+      // console.log("data", data);
     } else {
-      console.log(response1.message);
+      // console.log(response1.message);
     }
     setLoading(false);
     setShow(!show);
   };
   const handleDelete = async (i, id) => {
-    console.log(i, id);
+    // console.log(i, id);
     setLoading(true);
-    console.log(`https://ret3ch.herokuapp.com/v1/bloglist/${id}`);
+    // console.log(`https://ret3ch.herokuapp.com/v1/bloglist/${id}`);
     const response2 = await fetch(
       `https://ret3ch.herokuapp.com/v1/bloglist/${id}`,
       {
@@ -58,7 +60,7 @@ const Blog = () => {
     )
       .then((res) => res.json())
       .catch((err) => console.log(err));
-    console.log(response2);
+    // console.log(response2);
     if (response2.success === true) {
       const d1 = [...blogs];
       d1.splice(i, 1);
@@ -68,7 +70,7 @@ const Blog = () => {
   };
 
   const handleEdit = async (blog, e) => {
-    console.log(blog);
+    // console.log(blog);
     setLoading(true);
     const response2 = await fetch(
       `https://ret3ch.herokuapp.com/v1/bloglist/${editBlog._id}`,
@@ -82,18 +84,18 @@ const Blog = () => {
     )
       .then((res) => res.json())
       .catch((err) => console.log(err));
-    console.log(response2);
-    console.log(blogs);
+    // console.log(response2);
+    // console.log(blogs);
     const value = [...blogs];
     value[i] = response2.data;
     setBlogs(value);
-    console.log(value);
+    // console.log(value);
     setLoading(false);
 
     setEdit(false);
   };
 
-  console.log(blogs);
+  // console.log(blogs);
   return (
     <div className="container border p-2">
       <ToastContainer />
@@ -109,7 +111,13 @@ const Blog = () => {
       {show && <Add submit={(blog) => submit(blog)} />}
       <br />
       <br />
-      {edit && <Edit Blog={editBlog}   handleEdit={(blog) => handleEdit(blog)} />}
+      {edit && (
+        <Edit
+          Blog={editBlog}
+          cancel={() => setEdit(!edit)}
+          handleEdit={(blog) => handleEdit(blog)}
+        />
+      )}
       <div>
         <div className="text-center">
           {loading && (

@@ -21,7 +21,7 @@ const Add = (props) => {
     });
     data = "";
   };
-  console.log(blog);
+  // console.log(blog);
   return (
     <div className="container ">
       <form>
@@ -51,7 +51,7 @@ const Add = (props) => {
             editor={ClassicEditor}
             onChange={(event, editor) => {
                data = editor.getData();
-console.log(data);
+// console.log(data);
               setBlog({ ...blog, desc: data });
             }}
             name="desc"

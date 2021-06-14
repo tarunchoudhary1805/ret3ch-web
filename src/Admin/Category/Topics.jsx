@@ -19,7 +19,7 @@ const Topics = (props) => {
       const response = await fetch(getTopiclistApi + id)
         .then((res) => res.json())
         .catch((err) => console.log(err));
-      console.log(response);
+      // console.log(response);
       setTopics(response.data);
       setLoading(false);
     })();
@@ -38,7 +38,7 @@ const Topics = (props) => {
     })
       .then((res) => res.json())
       .catch((err) => console.log(err));
-    console.log(response?.data);
+    // console.log(response?.data);
     if (response?.success === true) {
       let value = [...topics];
       value.push(response.data);
@@ -49,13 +49,13 @@ const Topics = (props) => {
   };
 
   const question = (id1) => {
-    console.log(id1);
+    // console.log(id1);
     localStorage.setItem("topicId", id1);
     props.history.push("/questions");
   };
   const handleTopicDelete = async (idx, id) => {
     setLoading(true);
-    console.log(id);
+    // console.log(id);
     const res = await fetch(getTopiclistApi + id, { method: "DELETE" })
       .then((res) => res.json())
       .catch((err) => console.log(err));
@@ -64,12 +64,12 @@ const Topics = (props) => {
       x.splice(idx, 1);
       setTopics(x);
     }
-    console.log(res);
+    // console.log(res);
     setLoading(false);
   };
 
   const editTopic = async (data) => {
-    console.log(data);
+    // console.log(data);
     setLoading(true);
 
     const res = await fetch(getTopiclistApi + editId, {
@@ -81,16 +81,16 @@ const Topics = (props) => {
       .catch((err) => console.log(err));
     if (res.success === true) {
       const x1 = [...topics];
-      console.log(x1);
+      // console.log(x1);
       x1[i] = res.data;
-      console.log(x1);
+      // console.log(x1);
       setTopics(x1);
     }
-    console.log(res);
+    // console.log(res);
     setEdit(false);
     setLoading(false);
   };
-  console.log(topics);
+  // console.log(topics);
   return (
     <div className="container border p-5">
       <h3 className="text-center">Topics</h3>

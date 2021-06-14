@@ -21,7 +21,7 @@ const Edit = (props) => {
     });
     data = "";
   };
-  console.log(blog);
+  // console.log(blog);
   return (
     <div className="container ">
       <form>
@@ -51,7 +51,7 @@ const Edit = (props) => {
             editor={ClassicEditor}
             onChange={(event, editor) => {
               data = editor.getData();
-              console.log(data);
+              // console.log(data);
               setBlog({ ...blog, desc: data });
             }}
             name="desc"
@@ -61,7 +61,7 @@ const Edit = (props) => {
         
         <button
           type="button"
-          className="btn btn-success"
+          className="btn btn-success m-2"
           disabled={!blog.title}
           onClick={submit}
         >
@@ -69,11 +69,11 @@ const Edit = (props) => {
         </button>
         <button
           type="button"
-          className="btn btn-success"
+          className="btn btn-danger m-2"
            
-          onClick={submit}
+          onClick={props.cancel}
         >
-          Cancel Edit
+          Cancel 
         </button>
       </form>
     </div>

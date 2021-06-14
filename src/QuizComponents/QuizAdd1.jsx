@@ -15,7 +15,7 @@ const Form = (props) => {
   const handleChange = (i, e) => {
     const values = [...quiz];
     values[i][e.target.name] = e.target.value;
-    console.log(values);
+    // console.log(values);
     setQuiz(values);
   };
 
@@ -47,7 +47,7 @@ const Form = (props) => {
       question_list: quiz,
     };
     props.submit(payload);
-    console.log(payload);
+    // console.log(payload);
   };
 
   const handleChange1 = (e) => {
@@ -137,7 +137,7 @@ const Form = (props) => {
           </button>
         </div>
         <div>
-          <button className="btn btn-danger" onClick={submit}>
+          <button className="btn btn-success" onClick={submit}>
             Save Quiz
           </button>
         </div>

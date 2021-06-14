@@ -28,7 +28,7 @@ const Questions = (props) => {
       }
     })();
   }, []);
-  console.log("questions", questions);
+  // console.log("questions", questions);
   const addQuestion = async (questions1) => {
     setLoading(true);
     // console.log(questions1);
@@ -46,7 +46,7 @@ const Questions = (props) => {
     )
       .then((res) => res.json())
       .catch((err) => console.log(err));
-    console.log(value.data);
+    // console.log(value.data);
     if (value.success === true) {
       let value1 = [...questions];
       const value2 = value.data.forEach(myFun);
@@ -72,7 +72,7 @@ const Questions = (props) => {
     )
       .then((res) => res.json())
       .catch((err) => console.log(err));
-    console.log(response);
+    // console.log(response);
     if (response.success === true) {
       let data = [...questions];
       data.splice(idx, 1);
@@ -84,8 +84,8 @@ const Questions = (props) => {
 
   const submitEdit = async (data1) => {
     setLoading(true);
-    console.log("parent child data ---->>>> ", JSON.stringify(data1));
-    console.log("editId ---->>>> ", editId);
+    // console.log("parent child data ---->>>> ", JSON.stringify(data1));
+    // console.log("editId ---->>>> ", editId);
 
     await fetch(
       `${questionApi}/${editId}`,
@@ -97,7 +97,7 @@ const Questions = (props) => {
     )
       .then((res) => res.json())
       .then(result => {
-        console.log("edit response", result);
+        // console.log("edit response", result);
         if (result.success === true) {
           const x = [...questions];
           x[i] = result.data;

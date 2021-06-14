@@ -20,7 +20,7 @@ const Category = (props) => {
       let response = await fetch(getCategorylistApi)
         .then((res) => res.json())
         .catch((err) => console.log(err));
-      console.log(response.data);
+      // console.log(response.data);
       setCategories(response.data);
       setLoading(false);
     })();
@@ -34,7 +34,7 @@ const Category = (props) => {
     })
       .then((res) => res.json())
       .catch((err) => console.log(err));
-    console.log(response);
+    // console.log(response);
     setLoading(false);
     if (response.success === true) {
       const value = [...categories];
@@ -50,7 +50,7 @@ const Category = (props) => {
 
   const handleCateogryDelete = async (idx, id) => {
     setLoading(true);
-    console.log(id);
+    // console.log(id);
     const res = await fetch(getCategorylistApi + "/" + id, {
       method: "DELETE",
     })
@@ -61,13 +61,13 @@ const Category = (props) => {
       x.splice(idx, 1);
       setCategories(x);
     }
-    console.log(res);
+    // console.log(res);
     setLoading(false);
   };
 
   const editCategory = async (data) => {
-    console.log(data);
-
+    // console.log(data);
+    setLoading(true);
     const res = await fetch(getCategorylistApi + "/" + editId, {
       method: "PUT",
       headers: { "content-type": "application/json" },
@@ -80,7 +80,7 @@ const Category = (props) => {
       x[i] = res.data;
       setCategories(x);
     }
-    console.log(res);
+    // console.log(res);
     setEdit(false);
     setLoading(false);
   };

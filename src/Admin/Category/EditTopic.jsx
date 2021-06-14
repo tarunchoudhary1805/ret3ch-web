@@ -11,7 +11,7 @@ const EditTopic = (props) => {
   };
   const submit = (e) => {
     e.preventDefault();
-    console.log(topic);
+    // console.log(topic);
     props.editTopic(topic);
   };
 

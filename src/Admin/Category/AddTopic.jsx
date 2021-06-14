@@ -10,7 +10,7 @@ const AddTopic = (props) => {
   };
   const submit = (e) => {
     e.preventDefault();
-    console.log(topic);
+    // console.log(topic);
     props.topicSubmit(topic);
   };
   return (

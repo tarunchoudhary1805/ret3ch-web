@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const EditQuestion = (props) => {
-  console.log(props);
+  // console.log(props);
   const [data, setData] = useState({
     question: props.questionEdit.question,
     answer: props.questionEdit.answer,
@@ -11,11 +11,11 @@ const EditQuestion = (props) => {
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
-  console.log(data);
+  // console.log(data);
   const submit = (e) => {
     e.preventDefault();
     props.submitEdit(data);
-    console.log("data edit wala", data);
+    // console.log("data edit wala", data);
   };
 
   return (

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import QuizAdd from "../../QuizComponents/QuizAdd";
+ 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getQUizlistApi } from "../../apiList";
@@ -19,17 +19,17 @@ const Quiz = () => {
       const response = await fetch(getQUizlistApi)
         .then((res) => res.json())
         .catch((err) => console.log(err));
-      console.log(response);
+      // console.log(response);
       if (response?.status === true) {
         setQuizs(response.data);
       }
       setLoading(false);
     })();
   }, []);
-  console.log(quizs);
+  // console.log(quizs);
 
   const submit = async (quiz) => {
-    console.log(quiz);
+    // console.log(quiz);
     setLoading(true);
     const data = await fetch(getQUizlistApi, {
       method: "POST",
@@ -38,15 +38,15 @@ const Quiz = () => {
     })
       .then((res) => res.json())
       .catch((err) => console.log(err));
-    console.log(data);
-    console.log(quiz);
+    // console.log(data);
+    // console.log(quiz);
     if (data.success === true) {
       const value = [...quizs];
       value.push(data.data);
       setQuizs(value);
       toast.success("Quiz Added Successfully");
     } else {
-      console.log(data.message);
+      // console.log(data.message);
     }
     setShow(!show);
     setLoading(false);
@@ -58,7 +58,7 @@ const Quiz = () => {
     })
       .then((res) => res.json())
       .catch((err) => console.log(err));
-    console.log(v1);
+    // console.log(v1);
     if (v1.success === true) {
       toast.success("Quiz Deleted");
       let x = [...quizs];
@@ -69,7 +69,7 @@ const Quiz = () => {
   };
 
   const handleEdit = async (quiz, e) => {
-    console.log(quiz);
+    // console.log(quiz);
     setLoading(true);
     const response2 = await fetch(getQUizlistApi + "/" + editQuiz._id, {
       method: "PUT",
@@ -80,12 +80,12 @@ const Quiz = () => {
     })
       .then((res) => res.json())
       .catch((err) => console.log(err));
-    console.log(response2);
-    console.log(quizs);
+    // console.log(response2);
+    // console.log(quizs);
     const value = [...quizs];
     value[i] = response2.data;
     setQuizs(value);
-    console.log(value);
+    // console.log(value);
     setLoading(false);
 
     setEdit(false);
@@ -116,7 +116,7 @@ const Quiz = () => {
       {show && <Form submit={(quiz) => submit(quiz)} />}
 
       {edit && (
-        <QuizEdit quiz={editQuiz} handleEdit={(quiz) => handleEdit(quiz)} />
+        <QuizEdit quiz={editQuiz} cancel={()=>setEdit(!edit)} handleEdit={(quiz) => handleEdit(quiz)} />
       )}
 
       {!show && !edit && (

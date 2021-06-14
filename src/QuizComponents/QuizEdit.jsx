@@ -5,12 +5,12 @@ const QuizEdit = (props) => {
     quiz_heading: props.quiz.quiz_heading,
     short_desc: props.quiz.short_desc,
   });
-  console.log(props.quiz);
+  // console.log(props.quiz);
   const [quiz, setQuiz] = useState(props.quiz.question_list);
   const handleChange = (i, e) => {
     const values = [...quiz];
     values[i][e.target.name] = e.target.value;
-    console.log(values);
+    // console.log(values);
     setQuiz(values);
   };
 
@@ -42,7 +42,7 @@ const QuizEdit = (props) => {
       question_list: quiz,
     };
     props.handleEdit(payload);
-    console.log(payload);
+    // console.log(payload);/
   };
 
   const handleChange1 = (e) => {
@@ -108,7 +108,7 @@ const QuizEdit = (props) => {
                 
                 onChange={(e) => handleChange(idx1, e)}
               >
-                  {console.log(quiz)}
+                  {/* {console.log(quiz)} */}
                 <option value="1">Answer #1</option>
                 <option value="2">Answer #2</option>
                 <option value="3">Answer #3</option>
@@ -134,8 +134,11 @@ const QuizEdit = (props) => {
           </button>
         </div>
         <div>
-          <button className="btn btn-danger" onClick={submit}>
+          <button className="btn btn-success m-2" onClick={submit}>
             Save Quiz
+          </button>
+          <button className="btn btn-danger m-2" onClick={props.cancel}>
+            Cancel
           </button>
         </div>
       </form>
