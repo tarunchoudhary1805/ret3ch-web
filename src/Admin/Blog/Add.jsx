@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { toast } from "react-toastify";
 
 let data;
 
@@ -16,16 +17,22 @@ const Add = (props) => {
   };
 
   const submit = () => {
-    props.submit(blog);
-    setBlog({
-      title: "",
-      short_desc: "",
-      desc: "",
-    });
-    data = "";
+    if (
+      blog.title.length > 0 &&
+      blog.short_desc.length > 0 &&
+      blog.desc.length > 0
+    ) {
+      props.submit(blog);
+      setBlog({
+        title: "",
+        short_desc: "",
+        desc: "",
+      });
+    } else {
+      toast.error("All Fields are required");
+    }
   };
 
- 
   return (
     <div className="container ">
       <form>
@@ -54,19 +61,14 @@ const Add = (props) => {
           <CKEditor
             editor={ClassicEditor}
             onChange={(event, editor) => {
-               data = editor.getData();
+              data = editor.getData();
               setBlog({ ...blog, desc: data });
             }}
             name="desc"
             value={blog.desc}
           />
         </div>
-        <button
-          type="button"
-          className="btn btn-success"
-          disabled={!blog.title}
-          onClick={submit}
-        >
+        <button type="button" className="btn btn-success" onClick={submit}>
           Submit
         </button>
       </form>

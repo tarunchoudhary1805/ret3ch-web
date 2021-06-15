@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 const EditTopic = (props) => {
   const [topic, setTopic] = useState({
@@ -12,12 +13,17 @@ const EditTopic = (props) => {
   };
 
   const submit = (e) => {
-    e.preventDefault();
-    props.editTopic(topic);
+    if (topic.description.length > 0 && topic.title.length > 0) {
+      e.preventDefault();
+      props.editTopic(topic);
+    } else {
+      toast.error("All fields are required");
+    }
   };
 
   return (
     <div>
+      <ToastContainer />
       <div className="form-group">
         <label>Title </label>
         <input

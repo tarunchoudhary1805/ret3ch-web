@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { toast } from "react-toastify";
 
 let data;
 const Edit = (props) => {
@@ -15,13 +16,22 @@ const Edit = (props) => {
   };
   
   const submit = () => {
-    props.handleEdit(blog);
-    setBlog({
-      title: "",
-      short_desc: "",
-      desc: "",
-    });
-    data = "";
+    if (
+      blog.title.length > 0 &&
+      blog.short_desc.length > 0 &&
+      blog.desc.length > 0
+    ) {
+      props.handleEdit(blog);
+      setBlog({
+        title: "",
+        short_desc: "",
+        desc: "",
+      });
+    } else {
+      toast.error("All Fields are required");
+    }
+    
+     
   };
 
   return (
@@ -63,7 +73,7 @@ const Edit = (props) => {
         <button
           type="button"
           className="btn btn-success m-2"
-          disabled={!blog.title}
+          
           onClick={submit}
         >
           Submit

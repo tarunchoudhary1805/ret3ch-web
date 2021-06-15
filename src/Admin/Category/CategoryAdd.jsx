@@ -23,7 +23,12 @@ const CategoryAdd = (props) => {
         />
       </div>
       <div>
-        <button type="button" className="btn btn-success" onClick={submit}>
+        <button
+          disabled={!category}
+          type="button"
+          className="btn btn-success"
+          onClick={submit}
+        >
           Save
         </button>
       </div>

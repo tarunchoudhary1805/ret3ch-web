@@ -24,11 +24,12 @@ const EditCategory = (props) => {
         />
       </div>
       <div>
-        <button type="button" className="btn btn-success m-2" onClick={submit}>
+        <button  disabled={!category} type="button" className="btn btn-success m-2" onClick={submit}>
           Save
         </button>
         <button
           type="button"
+         
           className="btn btn-danger m-2"
           onClick={props.cancel}
         >
