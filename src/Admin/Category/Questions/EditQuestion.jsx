@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast ,ToastContainer} from "react-toastify";
 
 const EditQuestion = (props) => {
   const [data, setData] = useState({
@@ -13,11 +14,17 @@ const EditQuestion = (props) => {
 
   const submit = (e) => {
     e.preventDefault();
-    props.submitEdit(data);
+    if(data.question.length > 0 && data.answer.length > 0){
+      props.submitEdit(data);
+    }else{
+      toast.error("All Fields are required")
+      console.log("err");
+    }
   };
 
   return (
     <div>
+      <ToastContainer />
       <div className="form-group">
         <label>Question </label>
         <input

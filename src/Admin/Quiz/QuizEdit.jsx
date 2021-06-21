@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const QuizEdit = (props) => {
   const [quiz1, setQuiz1] = useState({
@@ -43,7 +44,21 @@ const QuizEdit = (props) => {
       short_desc: quiz1.short_desc,
       question_list: quiz,
     };
-    props.handleEdit(payload);
+    let bool ;
+     for(let i=0;i<quiz.length;i++){
+       if(quiz[i].question.length>0 && quiz[i].correct_option.length > 0 && quiz[i].quiz_options[0].length > 0 && quiz[i].quiz_options[1].length > 0 && quiz[i].quiz_options[2].length > 0 && quiz[i].quiz_options[3].length > 0){
+         bool = true;
+       }else{
+         bool = false;
+       }
+     }
+     console.log(bool);
+     if(bool){
+       props.handleEdit(payload);
+        
+      }else{
+        toast.error("ALl Fields are required");
+      }
   };
 
   const handleChange1 = (e) => {
@@ -107,7 +122,6 @@ const QuizEdit = (props) => {
                 name="correct_option"
                 className="form-control"
                 value={item.correct_option}
-                
                 onChange={(e) => handleChange(idx1, e)}
               >
                   {/* {console.log(quiz)} */}
@@ -117,8 +131,6 @@ const QuizEdit = (props) => {
                 <option value="4">Answer #4</option>
               </select>
             </div>
-          </div>
-        ))}
         <div className="d-flex justify-content-end">
           <button
             type="button"
@@ -130,11 +142,13 @@ const QuizEdit = (props) => {
           <button
             type="button"
             className="btn btn-danger m-2"
-            onClick={() => handleRemove()}
+            onClick={() => handleRemove(idx1)}
           >
             Delete
           </button>
         </div>
+          </div>
+        ))}
         <div>
           <button className="btn btn-success m-2" onClick={submit}>
             Save Quiz

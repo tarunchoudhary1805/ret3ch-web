@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast ,ToastContainer} from "react-toastify";
 
 const AddQuestion = (props) => {
   const [question_list, setQuestion_list] = useState([
@@ -33,11 +34,25 @@ const AddQuestion = (props) => {
 
   const submit = (e) => {
     e.preventDefault();
-    props.addQuestion(question_list);
+    let bool ;
+    for(let i=0;i<question_list.length;i++){
+      if(question_list[i].question.length>0 && question_list[i].answer.length > 0){
+        bool = true;
+      }else{
+        bool = false;
+      }
+    }
+    console.log(bool);
+    if(bool){
+      props.addQuestion(question_list);
+     }else{
+       toast.error("ALl Fields are required");
+     }
   };
 
   return (
     <div className="container">
+      <ToastContainer />
       {question_list?.map((item, idx1) => (
         <>
           <div className="form-group">
