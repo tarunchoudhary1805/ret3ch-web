@@ -6,7 +6,9 @@ import Edit from "./Edit";
 import { getBloglistApi } from "../../apiList";
 
 const Blog = () => {
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState(
+    JSON.parse(localStorage.getItem("blogs")) || []
+  );
   const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const [editBlog, setEditBlog] = useState();
@@ -26,60 +28,73 @@ const Blog = () => {
     })();
   }, []);
 
-  
   const submit = async (blog) => {
     setLoading(true);
-    const response1 = await fetch(getBloglistApi, {
-      method: "POST",
-      body: JSON.stringify(blog),
-      headers: {
-        "content-type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
-    if (response1.success === true) {
-      const data = [...blogs];
-      data.push(response1.data);
-      toast("Blog Added Successfully");
-      setBlogs(data);
-    }
+    const data = [...blogs];
+    data.push(blog);
+    localStorage.setItem("blogs", JSON.stringify(data));
+    toast("Blog Added Successfully");
+    setBlogs(data);
+    // const response1 = await fetch(getBloglistApi, {
+    //   method: "POST",
+    //   body: JSON.stringify(blog),
+    //   headers: {
+    //     "content-type": "application/json",
+    //   },
+    // })
+    //   .then((res) => res.json())
+    //   .catch((err) => console.log(err));
+    // if (response1?.success === true) {
+    //   const data = [...blogs];
+    //   data.push(response1.data);
+    //   toast("Blog Added Successfully");
+    //   setBlogs(data);
+    // }
     setLoading(false);
     setShow(!show);
   };
-  
+
   const handleDelete = async (i, id) => {
     setLoading(true);
-    const response2 = await fetch(`${getBloglistApi}/${id}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
+    const d1 = [...blogs];
+    d1.splice(i, 1);
+    toast("Blog Deleted Successfully");
+    localStorage.setItem("blogs", JSON.stringify(d1));
+    setBlogs(d1);
+    // const response2 = await fetch(`${getBloglistApi}/${id}`, {
+    //   method: "DELETE",
+    // })
+    //   .then((res) => res.json())
+    //   .catch((err) => console.log(err));
 
-    if (response2.success === true) {
-      const d1 = [...blogs];
-      d1.splice(i, 1);
-      toast("Blog Deleted Successfully");
-      setBlogs(d1);
-    }
+    // if (response2.success === true) {
+    //   const d1 = [...blogs];
+    //   d1.splice(i, 1);
+    //   toast("Blog Deleted Successfully");
+    //   setBlogs(d1);
+    // }
     setLoading(false);
   };
 
   const handleEdit = async (blog, e) => {
     setLoading(true);
-    const response2 = await fetch(`${getBloglistApi}/${editBlog._id}`, {
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(blog),
-    })
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
-
     const value = [...blogs];
-    value[i] = response2.data;
+    value[i] = blog;
+    localStorage.setItem("blogs", JSON.stringify(value));
     setBlogs(value);
+    // const response2 = await fetch(`${getBloglistApi}/${editBlog._id}`, {
+    //   method: "PUT",
+    //   headers: {
+    //     "content-type": "application/json",
+    //   },
+    //   body: JSON.stringify(blog),
+    // })
+    //   .then((res) => res.json())
+    //   .catch((err) => console.log(err));
+
+    // const value = [...blogs];
+    // value[i] = response2.data;
+    // setBlogs(value);
     setLoading(false);
     setEdit(false);
   };
@@ -114,6 +129,9 @@ const Blog = () => {
         )}
       </div>
       <div>
+        {blogs?.length == 0 && (
+          <p className="text-center"> No Blogs Found 💔</p>
+        )}
         {!show && !edit && (
           <ol>
             {blogs?.map((blog, i) => (
